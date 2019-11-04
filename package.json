@@ -1,5 +1,5 @@
 {
-  "name": "web-components-starter-kit",
+  "name": "web-components",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "keywords": [],
-  "author": "Robin Wieruch <opensource@rwieruch.com> (https://www.robinwieruch.de)",
+  "author": "Yelnar Nauryzbayev",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^6.6.0",
