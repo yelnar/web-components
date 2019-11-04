@@ -8,6 +8,10 @@ template.innerHTML = `
     .dropdown {
       padding: 3px 8px 8px;
     }
+    .dropdown.open .dropdown-list {
+      display: flex;
+      flex-direction: column;
+    }
     .label {
       display: block;
       margin-bottom: 5px;
@@ -41,10 +45,13 @@ template.innerHTML = `
       height: 40px;
       cursor: pointer;
     }
+    .dropdown-list li.selected {
+      font-weight: 600;
+    }
   </style>
   <div class="dropdown">
     <span class="label">Label</span>
-    <my-button as-atom>Content</my-button>
+    <y-button as-atom>Content</y-button>
     <div class="dropdown-list-container">
       <ul class="dropdown-list"></ul>
     </div>
@@ -53,36 +60,95 @@ template.innerHTML = `
 class Dropdown extends HTMLElement {
   constructor() {
     super()
+
     this._sR = this.attachShadow({ mode: "open" })
     this._sR.appendChild(template.content.cloneNode(true))
+
+    this.open = false
+
+    this.$label = this._sR.querySelector(".label")
+    this.$button = this._sR.querySelector("y-button")
+    this.$dropdown = this._sR.querySelector(".dropdown")
+    this.$dropdownList = this._sR.querySelector(".dropdown-list")
+
+    this.$button.addEventListener("onClick", this.toggleOpen.bind(this))
   }
+
   static get observedAttributes() {
     return ["label", "option", "options"]
   }
+
   get label() {
     return this.getAttribute("label")
   }
+
   set label(value) {
     this.setAttribute("label", value)
   }
+
   get option() {
     return this.getAttribute("option")
   }
+
   set option(value) {
     this.setAttribute("option", value)
   }
+
   get options() {
     return JSON.parse(this.getAttribute("options"))
   }
+
   set options(value) {
     this.setAttribute("options", JSON.stringify(value))
   }
+
   static get observedAttributes() {
     return ["label", "option", "options"]
   }
+
   attributeChangedCallback(name, oldVal, newVal) {
     this.render()
   }
-  render() {}
+
+  toggleOpen(event) {
+    this.open = !this.open
+    this.open
+      ? this.$dropdown.classList.add("open")
+      : this.$dropdown.classList.remove("open")
+  }
+
+  render() {
+    this.$label.innerHTML = this.label
+
+    if (this.options) {
+      this.$button.setAttribute(
+        "label",
+        this.options[this.option]
+          ? this.options[this.option].label
+          : "Select Option"
+      )
+    }
+
+    this.$dropdownList.innerHTML = ""
+
+    Object.keys(this.options || {}).forEach(key => {
+      let option = this.options[key]
+      let $option = document.createElement("li")
+      $option.innerHTML = option.label
+
+      if (this.option && this.option === key) {
+        $option.classList.add("selected")
+      }
+
+      $option.addEventListener("click", () => {
+        this.option = key
+        this.toggleOpen()
+        this.render()
+      })
+
+      this.$dropdownList.appendChild($option)
+    })
+  }
 }
-window.customElements.define("my-dropdown", Dropdown)
+
+window.customElements.define("y-dropdown", Dropdown)

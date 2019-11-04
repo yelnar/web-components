@@ -4,12 +4,14 @@
     <title>Web Components with Webpack Starter Kit</title>
   </head>
   <body>
-    <y-button as-atom></y-button>
+    <y-dropdown label="My dropdown"></y-dropdown>
+
     <script src="./bundle.js"></script>
     <script>
-      const element = document.querySelector("y-button")
-      element.label = "Hello there"
-      element.addEventListener("click", event => console.log("click outside", event))
+      document.querySelector('y-dropdown').options = {
+        option1: { label: 'Option 1' },
+        option2: { label: 'Option 2' },
+      };
     </script>
   </body>
 </html>

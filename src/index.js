@@ -1,3 +1,6 @@
+import "./components/Button.js"
+import "./components/Dropdown.js"
+
 const template = document.createElement("template")
 
 template.innerHTML = `

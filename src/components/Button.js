@@ -39,11 +39,11 @@ class Button extends HTMLElement {
     this._shadowRoot.appendChild(template.content.cloneNode(true))
 
     this.$container = this._shadowRoot.querySelector(".container")
-
     this.$button = this._shadowRoot.querySelector("button")
-    this.$button.addEventListener("click", event =>
-      console.log("click inside", event)
-    )
+
+    this.$button.addEventListener("click", event => {
+      this.dispatchEvent(new CustomEvent("onClick", { detail: "button click" }))
+    })
   }
 
   get label() {
