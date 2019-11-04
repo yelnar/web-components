@@ -4,7 +4,12 @@
     <title>Web Components with Webpack Starter Kit</title>
   </head>
   <body>
-    <my-app></my-app>
+    <y-button as-atom></y-button>
     <script src="./bundle.js"></script>
+    <script>
+      const element = document.querySelector("y-button")
+      element.label = "Hello there"
+      element.addEventListener("click", event => console.log("click outside", event))
+    </script>
   </body>
 </html>

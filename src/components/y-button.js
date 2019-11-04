@@ -38,16 +38,34 @@ class Button extends HTMLElement {
     this._shadowRoot = this.attachShadow({ mode: "open" })
     this._shadowRoot.appendChild(template.content.cloneNode(true))
 
+    this.$container = this._shadowRoot.querySelector(".container")
+
     this.$button = this._shadowRoot.querySelector("button")
+    this.$button.addEventListener("click", event =>
+      console.log("click inside", event)
+    )
+  }
+
+  get label() {
+    return this.getAttribute("label")
+  }
+
+  set label(value) {
+    this.setAttribute("label", value)
   }
 
   static get observedAttributes() {
     return ["label"]
   }
 
-  attributChangedCallback(name, oldVal, newVal) {
-    this[name] = newVal
+  attributeChangedCallback(name, oldVal, newVal) {
     this.render()
+  }
+
+  connectedCallback() {
+    if (this.hasAttribute("as-atom")) {
+      this.$container.style.padding = "0px"
+    }
   }
 
   render() {
