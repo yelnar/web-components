@@ -1,6 +1,7 @@
-import './components/say-something.js';
+import "./components/say-something.js"
+import "./components/y-button/y-button.js"
 
-const template = document.createElement('template');
+const template = document.createElement("template")
 
 template.innerHTML = `
   <style>
@@ -14,29 +15,30 @@ template.innerHTML = `
 
     Text: <input type="text" />
 
+    <y-button label="o"></y-button>
     <say-something></say-something>
     <say-something color="red"></say-something>
   </div>
-`;
+`
 
 class App extends HTMLElement {
   constructor() {
-    super();
+    super()
 
-    this._shadowRoot = this.attachShadow({ mode: 'open' });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this._shadowRoot = this.attachShadow({ mode: "open" })
+    this._shadowRoot.appendChild(template.content.cloneNode(true))
 
-    this.$input = this._shadowRoot.querySelector('input');
-    this.$input.addEventListener('input', this._handleChange.bind(this));
+    this.$input = this._shadowRoot.querySelector("input")
+    this.$input.addEventListener("input", this._handleChange.bind(this))
 
-    this.$allSaySomething = this._shadowRoot.querySelectorAll('say-something');
+    this.$allSaySomething = this._shadowRoot.querySelectorAll("say-something")
   }
 
   _handleChange() {
     this.$allSaySomething.forEach(element => {
-      element.setAttribute('text', this.$input.value)
-    });
+      element.setAttribute("text", this.$input.value)
+    })
   }
 }
 
-window.customElements.define('my-app', App);
+window.customElements.define("my-app", App)
