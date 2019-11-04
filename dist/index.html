@@ -8,10 +8,14 @@
 
     <script src="./bundle.js"></script>
     <script>
-      document.querySelector('y-dropdown').options = {
-        option1: { label: 'Option 1' },
-        option2: { label: 'Option 2' },
-      };
+      const dropdown = document.querySelector("y-dropdown")
+      dropdown.options = {
+        option1: { label: "Option 1" },
+        option2: { label: "Option 2" },
+      }
+      dropdown.addEventListener("onChange", event => {
+        console.log(`Dropdown value changed to ${event.detail}`)
+      })
     </script>
   </body>
 </html>
